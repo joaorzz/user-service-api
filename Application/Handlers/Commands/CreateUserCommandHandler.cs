@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Handlers.Commands
 {
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
     {
         private readonly IUserWritableService _userWritableService;
 
@@ -14,11 +14,11 @@ namespace Application.Handlers.Commands
             _userWritableService = userWritableService;
         }
 
-        public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             User user = new User(request.Name, request.Address, request.CEP, request.Email, request.Cpf, request.Phone, request.City, request.State);
 
-            return await _userWritableService.CreateUser(user);
+            await _userWritableService.CreateUser(user);
         }
     }
 }

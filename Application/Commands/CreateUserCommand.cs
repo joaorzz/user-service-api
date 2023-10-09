@@ -2,7 +2,7 @@
 
 namespace Application.Commands
 {
-    public class CreateUserCommand : IRequest<int>
+    public class CreateUserCommand : IRequest
     {
         public string Name { get; }
         public string Address { get; }
