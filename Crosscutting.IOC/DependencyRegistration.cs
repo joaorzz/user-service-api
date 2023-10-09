@@ -38,6 +38,7 @@ namespace Crosscutting.IOC
             services.AddSingleton<IUserReadOnlyRepository, UserReadOnlyRepository>();
             services.AddSingleton<IUserWritableRepository, UserWritableRepository>();
             services.AddSingleton<IDbConnectionFactory, NpgsqlDbConnectionFactory>();
+            services.AddSingleton<IDbService, DbService>();
 
             services.Configure<ConnectionStrings>(configuration.GetSection(nameof(ConnectionStrings)));
             services.AddSingleton(x => x.GetRequiredService<IOptions<ConnectionStrings>>().Value);
