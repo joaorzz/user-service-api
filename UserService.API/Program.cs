@@ -14,6 +14,7 @@ builder.Services.AddApiVersioning(options =>
     options.ReportApiVersions = true;
 });
 
+builder.Services.AddResponseTime();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
@@ -30,6 +31,8 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
     });
 }
+
+app.UseResponseTime();
 
 app.UseHttpsRedirection();
 
