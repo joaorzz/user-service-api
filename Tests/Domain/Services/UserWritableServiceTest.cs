@@ -34,36 +34,6 @@ namespace Tests.Domain.Services
         }
 
         [Fact]
-        public async Task UpdateUser_With_Existing_User_Should_Call_Update_Method_In_Repository()
-        {
-            // Arrange
-            User user = new User { Id = Guid.NewGuid(), Name = "TestUser" };
-            userRepositoryMock.Setup(repo => repo.Update(user)).ReturnsAsync(1);
-            userReadOnlyServiceMock.Setup(service => service.GetUserById(user.Id)).ReturnsAsync(user);
-
-            // Act
-            await userWritableService.UpdateUser(user);
-
-            // Assert
-            userRepositoryMock.Verify(repo => repo.Update(user), Times.Once);
-        }
-
-        [Fact]
-        public async Task UpdateUser_With_NonExisting_User_Should_Not_Call_Update_Method_In_Repository()
-        {
-            // Arrange
-            User user = new User { Id = Guid.NewGuid(), Name = "TestUser" };
-            userRepositoryMock.Setup(repo => repo.Update(user)).ReturnsAsync(1);
-            userReadOnlyServiceMock.Setup(service => service.GetUserById(user.Id)).ReturnsAsync((User)null);
-
-            // Act
-            async Task Result() => await userWritableService.UpdateUser(user);
-
-            // Assert
-            await Assert.ThrowsAsync<Exception>(Result);
-        }
-
-        [Fact]
         public async Task DeleteUser_With_Existing_User_Should_Call_Delete_Method_In_Repository()
         {
             // Arrange

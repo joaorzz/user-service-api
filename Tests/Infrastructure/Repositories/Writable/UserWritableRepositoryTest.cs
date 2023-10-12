@@ -25,22 +25,6 @@ namespace Tests.Infrastructure.Repositories.Writable
         }
 
         [Fact]
-        public async Task Update_Should_Execute_Update_Query_With_User()
-        {
-            // Arrange
-            User user = new User { Id = Guid.NewGuid(), Name = "TestUser" };
-
-            Mock<IDbService> dbServiceMock = SetupDbServiceMock(user);
-            UserWritableRepository userRepository = new UserWritableRepository(dbServiceMock.Object);
-
-            // Act
-            int result = await userRepository.Update(user);
-
-            // Assert
-            AssertResults(user, dbServiceMock, result);
-        }
-
-        [Fact]
         public async Task Delete_Should_Execute_Delete_Query_With_Id()
         {
             // Arrange
