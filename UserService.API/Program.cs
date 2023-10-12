@@ -1,3 +1,4 @@
+using Crosscutting.IOC;
 using Microsoft.AspNetCore.Mvc;
 using UserService.API.Extensions;
 
@@ -16,6 +17,8 @@ builder.Services.AddApiVersioning(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
+
+builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
 

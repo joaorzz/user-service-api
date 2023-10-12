@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  userservice.api:
+    image: ${DOCKER_REGISTRY-}userserviceapi
+    build:
+      context: .
+      dockerfile: UserService.API/Dockerfile
+    ports:
+      - "8080:8080"
