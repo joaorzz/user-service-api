@@ -7,25 +7,35 @@ namespace Domain.Services
     public class UserWritableService : IUserWritableService
     {
         private readonly IUserWritableRepository _userWritableRepository;
+        private readonly IUserReadOnlyService _userReadOnlyService;
 
-        public UserWritableService(IUserWritableRepository userWritableRepository)
+        public UserWritableService(IUserWritableRepository userWritableRepository, IUserReadOnlyService userReadOnlyService)
         {
             _userWritableRepository = userWritableRepository;
+            _userReadOnlyService = userReadOnlyService;
         }
 
-        public Task<int> CreateUser(User user)
+        public async Task CreateUser(User user)
         {
-            return _userWritableRepository.Create(user);
+            await _userWritableRepository.Create(user);
         }
 
-        public Task<int> DeleteUser(Guid id)
+        public async Task DeleteUser(Guid id)
         {
-            throw new NotImplementedException();
+            if (await UserExists(id))
+            {
+                await _userWritableRepository.Delete(id);
+            }    
         }
 
-        public Task<int> UpdateUser(User user)
+        private async Task<bool> UserExists(Guid id)
         {
-            throw new NotImplementedException();
+            User user = await _userReadOnlyService.GetUserById(id);
+
+            if (user is null)
+                throw new Exception("User not found UserNotFoundException");
+
+            return true;
         }
     }
 }

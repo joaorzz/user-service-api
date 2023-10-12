@@ -48,5 +48,15 @@ namespace UserService.API.Controllers.v1
 
             return Ok(user);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            DeleteUserCommand deleteUserCommand = new DeleteUserCommand(id);
+
+            await _mediator.Send(deleteUserCommand);
+
+            return NoContent();
+        }
     }
 }

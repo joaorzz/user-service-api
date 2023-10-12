@@ -1,39 +1,33 @@
-﻿using Dapper;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Repositories.Writable;
 using Infrastructure.Data;
-using System.Data;
 
 namespace Infrastructure.Repositories.Writable
 {
     public class UserWritableRepository : IUserWritableRepository
     {
-        private readonly IDbConnectionFactory _dbConnectionFactory;
+        private readonly IDbService _dbService;
 
-        public UserWritableRepository(IDbConnectionFactory dbConnectionFactory)
+        public UserWritableRepository(IDbService dbService)
         {
-            _dbConnectionFactory = dbConnectionFactory;
+            _dbService = dbService;
         }
 
         public async Task<int> Create(User user)
         {
-            using (IDbConnection connection = _dbConnectionFactory.CreateConnection())
-            {
-                const string query = "INSERT INTO \"User\" (\"Name\", \"Address\", \"CEP\", \"Email\", \"Cpf\", \"Phone\", \"City\", \"State\") " +
-                             "VALUES (@Name, @Address, @CEP, @Email, @Cpf, @Phone, @City, @State)";
+            const string query = "INSERT INTO \"User\" (\"Name\", \"Address\", \"CEP\", \"Email\", \"Cpf\", \"Phone\", \"City\", \"State\") " +
+                         "VALUES (@Name, @Address, @CEP, @Email, @Cpf, @Phone, @City, @State)";
 
-                return await connection.ExecuteAsync(query, user);
-            }
+            return await _dbService.ExecuteAsync(query, user);
         }
 
-        public Task<int> Delete(Guid id)
+        public async Task<int> Delete(Guid id)
         {
-            throw new NotImplementedException();
-        }
+            const string query = "DELETE FROM \"User\" WHERE \"Id\" = @UserId";
 
-        public Task<int> Update(User user)
-        {
-            throw new NotImplementedException();
-        }
+            var parameters = new { UserId = id };
+
+            return await _dbService.ExecuteAsync(query, parameters);
+        }        
     }
 }
