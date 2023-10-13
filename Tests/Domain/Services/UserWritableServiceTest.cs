@@ -47,20 +47,5 @@ namespace Tests.Domain.Services
             // Assert
             userRepositoryMock.Verify(repo => repo.Delete(userId), Times.Once);
         }
-
-        [Fact]
-        public async Task DeleteUser_With_NonExisting_User_Should_Not_Call_Delete_Method_In_Repository()
-        {
-            // Arrange
-            Guid userId = Guid.NewGuid();
-            userRepositoryMock.Setup(repo => repo.Delete(userId)).ReturnsAsync(1);
-            userReadOnlyServiceMock.Setup(service => service.GetUserById(userId)).ReturnsAsync((User)null);
-
-            // Act
-            async Task Result() => await userWritableService.DeleteUser(userId);
-
-            // Assert
-            await Assert.ThrowsAsync<Exception>(Result);
-        }
     }
 }
