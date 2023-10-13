@@ -22,13 +22,13 @@ namespace Infrastructure.Repositories.ReadOnly
         public async Task<User> GetById(Guid id)
         {
             const string query = "SELECT * FROM \"User\" WHERE \"Id\" = @UserId";
-            return await _dbService.QueryFirstAsync<User>(query, new { UserId = id });
+            return await _dbService.QueryFirstOrDefaultAsync<User>(query, new { UserId = id });
         }
 
         public async Task<User> GetByCpf(string cpf)
         {
             const string query = "SELECT * FROM \"User\" WHERE \"Cpf\" = @Cpf";
-            return await _dbService.QueryFirstAsync<User>(query, new { Cpf = cpf });
+            return await _dbService.QueryFirstOrDefaultAsync<User>(query, new { Cpf = cpf });
         }
     }
 }
