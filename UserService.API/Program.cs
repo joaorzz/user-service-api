@@ -14,6 +14,7 @@ builder.Services.AddApiVersioning(options =>
     options.ReportApiVersions = true;
 });
 
+builder.AddJwtAuth();
 builder.Services.AddResponseTime();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -36,6 +37,7 @@ app.UseResponseTime();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

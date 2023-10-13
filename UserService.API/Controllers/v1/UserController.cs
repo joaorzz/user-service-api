@@ -2,6 +2,7 @@
 using Application.DTOs;
 using Application.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UserService.API.Controllers.v1
@@ -18,6 +19,7 @@ namespace UserService.API.Controllers.v1
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateUserCommand command)
         {
             await _mediator.Send(command);
@@ -25,7 +27,9 @@ namespace UserService.API.Controllers.v1
             return Created(string.Empty, null);
         }
 
+
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             UsersResultDTO users = await _mediator.Send(new GetUserQuery());
@@ -34,6 +38,7 @@ namespace UserService.API.Controllers.v1
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById(Guid id)
         {
             UserDTO user = await _mediator.Send(new GetUserByIdQuery(id));
@@ -42,6 +47,7 @@ namespace UserService.API.Controllers.v1
         }
 
         [HttpGet("cpf/{cpf}")]
+        [Authorize]
         public async Task<IActionResult> GetByCpf(string cpf)
         {
             UserDTO user = await _mediator.Send(new GetUserByCpfQuery(cpf));
@@ -50,6 +56,7 @@ namespace UserService.API.Controllers.v1
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(Guid id)
         {
             DeleteUserCommand deleteUserCommand = new DeleteUserCommand(id);
