@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Exceptions;
 using Domain.Repositories.Writable;
 using Domain.Services.Interfaces;
 
@@ -22,20 +23,9 @@ namespace Domain.Services
 
         public async Task DeleteUser(Guid id)
         {
-            if (await UserExists(id))
-            {
-                await _userWritableRepository.Delete(id);
-            }    
-        }
-
-        private async Task<bool> UserExists(Guid id)
-        {
             User user = await _userReadOnlyService.GetUserById(id);
 
-            if (user is null)
-                throw new Exception("User not found UserNotFoundException");
-
-            return true;
+            await _userWritableRepository.Delete(user.Id);
         }
     }
 }

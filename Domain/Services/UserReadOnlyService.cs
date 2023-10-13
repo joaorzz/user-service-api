@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Exceptions;
 using Domain.Repositories.ReadOnly;
 using Domain.Services.Interfaces;
 
@@ -21,12 +22,22 @@ namespace Domain.Services
 
         public async Task<User> GetUserById(Guid id)
         {
-            return await _userRepository.GetById(id);
+            User user = await _userRepository.GetById(id);
+            CheckIfUserExists(user);
+            return user;
         }
-        
+
         public async Task<User> GetUserByCpf(string cpf)
         {
-            return await _userRepository.GetByCpf(cpf);
+            User user = await _userRepository.GetByCpf(cpf);
+            CheckIfUserExists(user);
+            return user;
+        }
+
+        public void CheckIfUserExists(User user)
+        {
+            if (user is null)
+                throw new UserNotFoundException();
         }
     }
 }
