@@ -16,6 +16,7 @@ builder.Services.AddApiVersioning(options =>
 
 builder.AddJwtAuth();
 builder.Services.AddResponseTime();
+builder.Services.AddGlobalExceptionHandler();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
@@ -34,7 +35,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseResponseTime();
-
+app.UseGlobalExceptionHandler();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
