@@ -25,7 +25,7 @@ namespace Tests.Domain.Services
             UserReadOnlyService userService = new UserReadOnlyService(userRepositoryMock.Object);
 
             // Act
-            var result = await userService.GetAllUsers();
+            List<User> result = await userService.GetAllUsers();
 
             // Assert
             Assert.NotNull(result);
@@ -42,7 +42,7 @@ namespace Tests.Domain.Services
             UserReadOnlyService userService = new UserReadOnlyService(userRepositoryMock.Object);
 
             // Act
-            var result = await userService.GetUserById(userId);
+            User result = await userService.GetUserById(userId);
 
             // Assert
             Assert.NotNull(result);
@@ -68,28 +68,26 @@ namespace Tests.Domain.Services
         public async Task GetUserByCpf_Should_Return_User_With_Given_Cpf()
         {
             // Arrange
-            string expectedCpf = _expectedUser.Cpf;
             Mock<IUserReadOnlyRepository> userRepositoryMock = SetupUserReadOnlyRepositoryMock();
             UserReadOnlyService userService = new UserReadOnlyService(userRepositoryMock.Object);
 
             // Act
-            var result = await userService.GetUserByCpf(expectedCpf);
+            User result = await userService.GetUserByCpf(_expectedUser.Cpf);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(expectedCpf, result.Cpf);
+            Assert.Equal(_expectedUser.Cpf, result.Cpf);
         }
 
         [Fact]
         public async Task GetUserByCpf_With_NonExisting_User_Should_Throws_Exception()
         {
             // Arrange
-            string expectedCpf = _expectedUser.Cpf;
             Mock<IUserReadOnlyRepository> userRepositoryMock = SetupUserReadOnlyRepositoryMockWithException();
             UserReadOnlyService userService = new UserReadOnlyService(userRepositoryMock.Object);
 
             // Act
-            async Task Result() => await userService.GetUserByCpf(expectedCpf);
+            async Task Result() => await userService.GetUserByCpf(_expectedUser.Cpf);
 
             // Assert
             await Assert.ThrowsAsync<UserNotFoundException>(Result);
