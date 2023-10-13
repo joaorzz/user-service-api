@@ -18,7 +18,7 @@ namespace Tests.Infrastructure.Repositories.Writable
             UserWritableRepository userRepository = new UserWritableRepository(dbServiceMock.Object);
 
             // Act
-            var result = await userRepository.Create(user);
+            int result = await userRepository.Create(user);
 
             // Assert
             AssertResults(user, dbServiceMock, result);
