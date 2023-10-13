@@ -1,5 +1,6 @@
 using Crosscutting.IOC;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using UserService.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,19 @@ builder.Services.AddApiVersioning(options =>
 });
 
 builder.AddJwtAuth();
+builder.Services.AddHsts(options =>
+{
+    options.IncludeSubDomains = true;
+    options.Preload = true;
+    options.MaxAge = TimeSpan.FromMinutes(5);
+});
+
+builder.Services.AddResponseCompression(configureOptions =>
+{
+    configureOptions.EnableForHttps = true;
+    configureOptions.Providers.Add<GzipCompressionProvider>();
+});
+
 builder.Services.AddResponseTime();
 builder.Services.AddGlobalExceptionHandler();
 
