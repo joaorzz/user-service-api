@@ -19,7 +19,7 @@ namespace Tests.Application.Commands
             const string state = "NY";
 
             // Act
-            var createUserCommand = new CreateUserCommand(name, address, cep, email, cpf, phone, city, state);
+            CreateUserCommand createUserCommand = new CreateUserCommand(name, address, cep, email, cpf, phone, city, state);
 
             // Assert
             Assert.NotNull(createUserCommand);

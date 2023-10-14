@@ -81,7 +81,7 @@ namespace Tests.Infrastructure.Repositories.ReadOnly
         private void SetupDbServiceQueryFirstAsync<T>(T expectedResult)
         {
             _dbServiceMock
-                .Setup(service => service.QueryFirstAsync<T>(It.IsAny<string>(), It.IsAny<object>()))
+                .Setup(service => service.QueryFirstOrDefaultAsync<T>(It.IsAny<string>(), It.IsAny<object>()))
                 .ReturnsAsync(expectedResult);
         }
 

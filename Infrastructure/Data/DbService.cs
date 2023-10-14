@@ -17,9 +17,9 @@ namespace Infrastructure.Data
             return await _connection.QueryAsync<T>(sql, param);
         }
 
-        public async Task<T> QueryFirstAsync<T>(string sql, object param = null)
+        public async Task<T> QueryFirstOrDefaultAsync<T>(string sql, object param = null)
         {
-            return await _connection.QueryFirstAsync<T>(sql, param);
+            return await _connection.QueryFirstOrDefaultAsync<T>(sql, param);
         }
 
         public async Task<int> ExecuteAsync(string sql, object param = null)
