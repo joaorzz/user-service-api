@@ -13,7 +13,7 @@ namespace Application.Validators
             RuleFor(request => request).NotNull();
             RuleFor(request => request.Name).Length(6, 255).NotNull();
             RuleFor(request => request.Address).Length(10, 255).NotNull();
-            RuleFor(request => request.CEP).Length(10).NotNull().Must(BeNumeric);
+            RuleFor(request => request.CEP).Length(8, 10).NotNull().Must(BeNumeric);
             RuleFor(request => request.Phone).Length(10, 15).NotNull().Must(BeNumeric);
             RuleFor(request => request.City).MaximumLength(255).NotEmpty().NotNull();
             RuleFor(request => request.State).Length(2).NotEmpty().NotNull();
