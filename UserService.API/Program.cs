@@ -1,10 +1,19 @@
 using Crosscutting.IOC;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
+using OpenTelemetry.Resources;
+using System.Reflection;
 using UserService.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+ResourceBuilder resourceBuilder = ResourceBuilder.CreateDefault().AddService(serviceName: builder.Environment.ApplicationName,
+    serviceVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+    serviceNamespace: builder.Environment.EnvironmentName,
+    serviceInstanceId: Environment.MachineName);
+
+builder.AddOpenTelemetryLogging(resourceBuilder);
+builder.Services.AddOpenTelemetry().AddTracing(builder.Configuration, resourceBuilder);
 
 builder.Services.AddControllers();
 
