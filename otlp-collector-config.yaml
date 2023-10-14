@@ -1,0 +1,43 @@
+extensions:
+  basicauth/grafana_cloud_tempo:
+    client_auth:
+      username: #{GrafanaTempo-UserName}#
+      password: #{GrafanaTempo-Password}#
+  basicauth/grafana_cloud_loki:
+    client_auth:
+      username: #{GrafanaLoki-UserName}#
+      password: #{GrafanaLoki-UserName}#
+
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+processors:
+  batch:
+
+exporters:
+  otlp/grafana_cloud_traces:
+    endpoint: #{GrafanaTempo-Endpoint}#
+    auth:
+      authenticator: basicauth/grafana_cloud_tempo
+
+  loki/grafana_cloud_logs:
+    endpoint: #{GrafanaLoki-Endpoint}#
+    auth:
+      authenticator: basicauth/grafana_cloud_loki
+
+
+service:
+  extensions: [basicauth/grafana_cloud_tempo, basicauth/grafana_cloud_loki]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/grafana_cloud_traces]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [loki/grafana_cloud_logs]

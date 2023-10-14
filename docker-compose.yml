@@ -8,3 +8,10 @@ services:
       dockerfile: UserService.API/Dockerfile
     ports:
       - "8080:8080"
+  
+  otlp-collector:
+    container_name: otlp-collector
+    image: otel/opentelemetry-collector-contrib:0.87.0
+    command: ["--config=/etc/otlp-collector-config.yaml"]
+    volumes:
+      - ./otlp-collector-config.yaml:/etc/otlp-collector-config.yaml
